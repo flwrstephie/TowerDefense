@@ -9,6 +9,15 @@ public class EnemyBehavior : MonoBehaviour
     public float effectDuration = 2f; 
     public float spinSpeed = 360f; 
 
+    private Renderer enemyRenderer; 
+    private bool isChangingColor = false; 
+
+    void Start()
+    {
+        
+        enemyRenderer = GetComponent<Renderer>();
+    }
+
     void Update()
     {
         transform.Translate(-Vector3.forward * moveSpeed * Time.deltaTime); 
@@ -19,9 +28,18 @@ public class EnemyBehavior : MonoBehaviour
         if (other.CompareTag("Bullet"))
         {
             Debug.Log("Enemy hit by bullet!");
+
             Destroy(other.gameObject); 
 
+            
+            if (!isChangingColor)
+            {
+                StartCoroutine(ChangeColorEffect());
+            }
+
+            
             int randomEffect = Random.Range(0, 3); 
+
             if (randomEffect == 0)
             {
                 StartCoroutine(StunEffect());
@@ -36,7 +54,30 @@ public class EnemyBehavior : MonoBehaviour
             }
         }
     }
-    
+
+    private IEnumerator ChangeColorEffect()
+    {
+        isChangingColor = true;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < effectDuration)
+        {
+            float r = Mathf.PingPong(Time.time, 1f);
+            float g = Mathf.PingPong(Time.time + 0.5f, 1f);
+            float b = Mathf.PingPong(Time.time + 1f, 1f);
+
+            if (enemyRenderer != null)
+            {
+                enemyRenderer.material.color = new Color(r, g, b);
+            }
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        isChangingColor = false;
+    }
+
     private IEnumerator StunEffect()
     {
         moveSpeed = 0f; 
@@ -63,7 +104,7 @@ public class EnemyBehavior : MonoBehaviour
     private IEnumerator SpinEffect()
     {
         float elapsedTime = 0f;
-        
+
         while (elapsedTime < effectDuration)
         {
             transform.Rotate(Vector3.up, spinSpeed * Time.deltaTime); 

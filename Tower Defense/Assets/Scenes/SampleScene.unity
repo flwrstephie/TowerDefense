@@ -1052,7 +1052,7 @@ MonoBehaviour:
   shootAngle: 8.9
   shootPower: 30
   floatHeight: 3
-  floatDuration: 1.5
+  floatDuration: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

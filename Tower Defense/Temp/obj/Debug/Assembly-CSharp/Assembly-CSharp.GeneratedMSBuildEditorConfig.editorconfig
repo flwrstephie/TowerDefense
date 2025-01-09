@@ -1,8 +1,3 @@
 is_global = true
 build_property.RootNamespace = 
-build_property.ProjectDir = C:\Users\kathe\OneDrive\Documents\GitHub\TowerDefense\Tower Defense\
-build_property.EnableComHosting = 
-build_property.EnableGeneratedComInterfaceComImportInterop = 
-build_property.CsWinRTUseWindowsUIXamlProjections = false
-build_property.EffectiveAnalysisLevelStyle = 
-build_property.EnableCodeStyleSeverity = 
+build_property.ProjectDir = D:\Github\TowerDefense\Tower Defense\
