@@ -7,7 +7,7 @@ public class EnemyBehavior : MonoBehaviour
     public int damage = 1; 
     public float floatHeight = 0.5f; 
     public float effectDuration = 2f; 
-    public float spinSpeed = 360f; // Speed of spinning in degrees per second
+    public float spinSpeed = 360f; 
 
     void Update()
     {
@@ -19,12 +19,9 @@ public class EnemyBehavior : MonoBehaviour
         if (other.CompareTag("Bullet"))
         {
             Debug.Log("Enemy hit by bullet!");
-
             Destroy(other.gameObject); 
 
-            // Randomly choose an effect
             int randomEffect = Random.Range(0, 3); 
-
             if (randomEffect == 0)
             {
                 StartCoroutine(StunEffect());
@@ -39,7 +36,7 @@ public class EnemyBehavior : MonoBehaviour
             }
         }
     }
-
+    
     private IEnumerator StunEffect()
     {
         moveSpeed = 0f; 
@@ -66,11 +63,10 @@ public class EnemyBehavior : MonoBehaviour
     private IEnumerator SpinEffect()
     {
         float elapsedTime = 0f;
-
-        // Spin the enemy for the effect duration
+        
         while (elapsedTime < effectDuration)
         {
-            transform.Rotate(Vector3.up, spinSpeed * Time.deltaTime); // Rotate around the Y-axis
+            transform.Rotate(Vector3.up, spinSpeed * Time.deltaTime); 
             elapsedTime += Time.deltaTime;
             yield return null;
         }

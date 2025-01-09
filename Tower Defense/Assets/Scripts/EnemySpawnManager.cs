@@ -7,7 +7,6 @@ public class EnemySpawnManager : MonoBehaviour
     public MeshCollider spawnArea; 
     public int enemiesPerWave = 5; 
     public float spawnInterval = 1f; 
-
     private int currentWave = 1; 
     private int totalWaves = 3; 
 
@@ -36,7 +35,6 @@ public class EnemySpawnManager : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        
         Vector3 randomPosition = new Vector3(
             Random.Range(spawnArea.bounds.min.x, spawnArea.bounds.max.x),
             spawnArea.bounds.center.y, 
