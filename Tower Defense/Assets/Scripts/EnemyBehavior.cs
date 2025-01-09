@@ -7,24 +7,23 @@ public class EnemyBehavior : MonoBehaviour
     public int damage = 1; 
     public float floatHeight = 0.5f; 
     public float effectDuration = 2f; 
+    public float spinSpeed = 360f; // Speed of spinning in degrees per second
 
     void Update()
     {
-        
         transform.Translate(-Vector3.forward * moveSpeed * Time.deltaTime); 
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        
         if (other.CompareTag("Bullet"))
         {
             Debug.Log("Enemy hit by bullet!");
 
             Destroy(other.gameObject); 
 
-            
-            int randomEffect = Random.Range(0, 2); 
+            // Randomly choose an effect
+            int randomEffect = Random.Range(0, 3); 
 
             if (randomEffect == 0)
             {
@@ -34,10 +33,13 @@ public class EnemyBehavior : MonoBehaviour
             {
                 StartCoroutine(FloatEffect());
             }
+            else if (randomEffect == 2)
+            {
+                StartCoroutine(SpinEffect());
+            }
         }
     }
 
-    
     private IEnumerator StunEffect()
     {
         moveSpeed = 0f; 
@@ -45,14 +47,12 @@ public class EnemyBehavior : MonoBehaviour
         Destroy(gameObject); 
     }
 
-    
     private IEnumerator FloatEffect()
     {
         Vector3 originalPosition = transform.position;
         float targetHeight = originalPosition.y + floatHeight; 
         float elapsedTime = 0f;
 
-        
         while (elapsedTime < effectDuration)
         {
             transform.position = Vector3.Lerp(originalPosition, new Vector3(originalPosition.x, targetHeight, originalPosition.z), (elapsedTime / effectDuration));
@@ -60,7 +60,21 @@ public class EnemyBehavior : MonoBehaviour
             yield return null;
         }
 
-        
+        Destroy(gameObject);
+    }
+
+    private IEnumerator SpinEffect()
+    {
+        float elapsedTime = 0f;
+
+        // Spin the enemy for the effect duration
+        while (elapsedTime < effectDuration)
+        {
+            transform.Rotate(Vector3.up, spinSpeed * Time.deltaTime); // Rotate around the Y-axis
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
         Destroy(gameObject);
     }
 }
